@@ -1,0 +1,8 @@
+include README.rst
+include LICENSE.txt
+include versions.cfg
+include buildout.cfg
+include bootstrap.py
+recursive-include anchors *.html
+recursive-include anchors/demo *
+recursive-include anchors/static *
