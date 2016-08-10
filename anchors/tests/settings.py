@@ -13,7 +13,10 @@ TEMPLATES = [
 
 INSTALLED_APPS = [
     'anchors',
+    'django.contrib.sites',
 ]
+
+SITE_ID = 1
 
 SECRET_KEY = 'secret-key'
 
