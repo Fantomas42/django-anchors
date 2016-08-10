@@ -1,16 +1,46 @@
 """Template tags for anchors app"""
+from urlparse import urlparse
+
+from bs4 import BeautifulSoup
+
 from django import template
+from django.contrib.sites.models import Site
 from django.utils.safestring import mark_safe
 from django.utils.html import conditional_escape
 
 register = template.Library()
 
 
+def anchor_classes(url, domain):
+    """
+    Returns appropriate classes from URL.
+    """
+    classes = []
+    components = urlparse(url)
+    if components.netloc:
+        if components.netloc == domain:
+            classes.append('absolute-link')
+        else:
+            classes.append('external-link')
+    elif components.path:
+        classes.append('relative-link')
+    if components.fragment:
+        classes.append('anchor-link')
+    return classes
+
+
 def clean_anchors(content):
     """
     Clean and add classes for each anchors.
     """
-    return content
+    domain = Site.objects.get_current().domain
+    soup = BeautifulSoup(content, 'html.parser')
+
+    for link in soup.find_all('a'):
+        classes = anchor_classes(link.get('href'), domain)
+        link['class'] = link.get('class', []) + classes
+
+    return str(soup)
 
 
 class AnchorNode(template.Node):
