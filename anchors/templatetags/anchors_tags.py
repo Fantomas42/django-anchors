@@ -1,5 +1,8 @@
 """Template tags for anchors app"""
-from urlparse import urlparse
+try:
+    from urlparse import urlparse
+except ImportError:  # Python 3
+    from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 
