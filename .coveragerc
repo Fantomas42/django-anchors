@@ -1,0 +1,10 @@
+[run]
+source          = anchors
+omit            = anchors/tests*
+                  anchors/demo/*
+
+[report]
+exclude_lines   =
+    pragma: no cover
+    Python 3
+show_missing    = True
